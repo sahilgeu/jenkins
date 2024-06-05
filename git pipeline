@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+    
+    environment {
+        // Define any environment variables here if needed
+        // Example: PATH = "/usr/local/bin:$PATH"
+    }
+    
+    stages {
+        stage('Clone Repository') {
+            steps {
+                // Clean the workspace before starting
+                cleanWs()
+                
+                // Checkout the Git repository
+                git url: 'https://github.com/your-repo.git', branch: 'main'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Commands to build your project
+                // Example for a Maven project:
+                sh 'mvn clean install'
+                
+                // Example for a Node.js project:
+                // sh 'npm install'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                // Commands to run tests
+                // Example for a Maven project:
+                sh 'mvn test'
+                
+                // Example for a Node.js project:
+                // sh 'npm test'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                // Commands to deploy your application
+                // Example: copy files to a server or upload artifacts
+                // sh 'scp target/*.jar user@server:/path/to/deploy'
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Archive artifacts, send notifications, etc.
+            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+            junit 'target/surefire-reports/*.xml'
+        }
+        
+        success {
+            // Actions to take if the build is successful
+            echo 'Build was successful!'
+        }
+        
+        failure {
+            // Actions to take if the build fails
+            echo 'Build failed!'
+        }
+    }
+}
