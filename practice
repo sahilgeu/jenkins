@@ -1,0 +1,22 @@
+pipeline {
+   agent any
+     stages {
+       stage("clone the repository") {
+              steps {
+                  git url: 'https://github.com/sahilgeu/aws-vpc.git', branch: 'main'
+                  }
+              }
+
+       stage("build the project") {
+              steps {
+                    sh 'mcn clean install'
+                }
+            }
+        stage("test the project") {
+              steps {
+                     sh 'mvn test'
+                 }
+            }
+
+      
+                     
