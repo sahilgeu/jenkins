@@ -1,0 +1,10 @@
+1-cloudbees docker 
+2-docker api plugin
+3-docker pipeline
+docker plugin
+eclipse temurin
+jdk-JDK11
+VERSION-JDK-11.0.17+8
+Maven3 version-latest
+Docker latest
+credentails add credentials of docker hub
